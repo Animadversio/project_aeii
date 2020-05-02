@@ -41,7 +41,7 @@ After gradle build is done go for `Build -> Make Project`. Then you can create l
 
 **Note:** You will need to run gradle task `desktop:dist` before launch desktop version.
 
-In the Desktop branch, you should launch the compiled `jar` file with these options
+In the Desktop branch, you should launch the compiled `jar` file with these options. JDK 14 has been tested. And the code tolerent level should be set to at least 1.7 
 
 * Desktop Launcher **main class:** `net.toyknight.aeii.desktop.DesktopLauncher`, **module:** `desktop`, **working directory:** `<project directory>\project_aeii\assets`
 
