@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.PropertiesUtils;
 import net.toyknight.aeii.animation.AnimationManager;
+import net.toyknight.aeii.animation.EmptyAnimationManager;
 import net.toyknight.aeii.campaign.CampaignContext;
 import net.toyknight.aeii.entity.*;
 import net.toyknight.aeii.concurrent.AsyncTask;
@@ -122,8 +123,12 @@ public class GameContext extends Game implements GameManagerListener {
                 font_renderer = new FontRenderer(this);
                 canvas_renderer = new CanvasRenderer(this);
                 border_renderer = new BorderRenderer(this);
+                if (!Boolean.parseBoolean(configuration.get("animation"))){
+                    game_manager = new GameManager(this, new EmptyAnimationManager());//AnimationManager(this)
+                } else{
+                    game_manager = new GameManager(this, new AnimationManager(this));//AnimationManager(this)
+                }
 
-                game_manager = new GameManager(this, new AnimationManager(this));
                 game_manager.getGameEventExecutor().setCheckEventValue(true);
                 game_manager.setListener(this);
 
@@ -188,6 +193,7 @@ public class GameContext extends Game implements GameManagerListener {
                 configuration.put("username", "undefined");
                 configuration.put("se_volume", "0.5");
                 configuration.put("music_volume", "0.5");
+                configuration.put("animation", "1");
                 OutputStreamWriter writer = new OutputStreamWriter(config_file.write(false), "UTF8");
                 PropertiesUtils.store(configuration, writer, "aeii user configuration file");
             }

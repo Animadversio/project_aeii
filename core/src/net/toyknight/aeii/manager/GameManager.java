@@ -36,7 +36,7 @@ public class GameManager implements AnimationListener {
     private final GameRecorder game_recorder;
     private final GameEventExecutor event_executor;
     private final OperationExecutor operation_executor;
-    private final AnimationDispatcher animation_dispatcher;
+    private final AnimationDispatcher animation_dispatcher; //EmptyAnimationManager
 
     private final PositionGenerator position_generator;
 
@@ -60,7 +60,7 @@ public class GameManager implements AnimationListener {
         this(null, new EmptyAnimationManager());
     }
 
-    public GameManager(GameContext context, AnimationDispatcher dispatcher) {
+    public GameManager(GameContext context, AnimationDispatcher dispatcher) { //AnimationManager//EmptyAnimationManager
         this.context = context;
         this.animation_dispatcher = dispatcher;
         this.animation_dispatcher.setListener(this);
