@@ -177,7 +177,7 @@ public class GameCore implements Serializable {
     public int getNextTeam() {
         int team = getCurrentTeam();
         do {
-            team = team < 3 ? team + 1 : 0;
+            team = team < 3 ? team + 1 : 0; // FIXME: here used the maximum team member
         } while (!isTeamAlive(team));
         return team;
     }
@@ -431,7 +431,7 @@ public class GameCore implements Serializable {
         }
         return count;
     }
-
+    // Here the actual rules of the game get really defined, what can be done
     public boolean canAttack(Unit attacker, int x, int y) {
         if (attacker != null && UnitToolkit.isWithinRange(attacker, x, y)) {
             Unit defender = getMap().getUnit(x, y);
@@ -555,7 +555,7 @@ public class GameCore implements Serializable {
                 || unit.hasAbility(Ability.AIR_FORCE) && !target_unit.hasAbility(Ability.AIR_FORCE);
     }
 
-    public boolean canBuyUponUnit(Unit unit, int team) {
+    public boolean canBuyUponUnit(Unit unit, int team) { // when can team buy when the unit is on the castle
         return unit == null || (unit.isCommander() && unit.getTeam() == team);
     }
 

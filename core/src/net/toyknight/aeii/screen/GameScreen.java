@@ -26,7 +26,7 @@ import net.toyknight.aeii.utils.Language;
 import net.toyknight.aeii.utils.TileFactory;
 import org.json.JSONObject;
 
-/**
+/** This screen has the api to draw the state of the affair.
  * @author toyknight 4/4/2015.
  */
 public class GameScreen extends StageScreen implements MapCanvas, GameRecordPlayerListener {
@@ -171,7 +171,7 @@ public class GameScreen extends StageScreen implements MapCanvas, GameRecordPlay
     }
 
     @Override
-    public void draw() {
+    public void draw() { // the core loop to draw the screen
         batch.begin();
         drawMap();
         if (canOperate()) {
@@ -401,7 +401,7 @@ public class GameScreen extends StageScreen implements MapCanvas, GameRecordPlay
         updateViewport();
         super.act(delta);
 
-        getContext().getRecordPlayer().update(delta);
+        getContext().getRecordPlayer().update(delta); // this delta defines the delay in animation
         try {
             getContext().getGameManager().update(delta);
         } catch (CheatingException ex) {

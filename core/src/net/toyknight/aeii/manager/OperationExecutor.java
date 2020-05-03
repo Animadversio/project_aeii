@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
+/** Wrapper around GameEventExecutor, structure is similar. It can also submit and execute events through GameEventExecutor.
  * @author toyknight 1/28/2016.
  */
 public class OperationExecutor {

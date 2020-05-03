@@ -13,7 +13,7 @@ import org.json.JSONObject;
 public class GameRecordPlayer {
 
     private static final String TAG = "Record Player";
-
+    private Float step;
     private final GameContext context;
 
     private GameRecordPlayerListener listener;
@@ -24,6 +24,7 @@ public class GameRecordPlayer {
 
     public GameRecordPlayer(GameContext context) {
         this.context = context;
+        this.step = Float.parseFloat(context.getConfiguration().get("replay_step"));
     }
 
     public GameContext getContext() {
@@ -55,10 +56,10 @@ public class GameRecordPlayer {
     public void update(float delta) {
         try {
             if (getRecord() != null) {
-                if (getRecord().getEvents().isEmpty()) {
+                if (getRecord().getEvents().isEmpty()) { // go through the queue of events and say it's finished
                     if (!playback_finished) {
                         playback_finished = true;
-                        fireRecordFinishEvent();
+                        fireRecordFinishEvent(); // screen needs to do this
                     }
                 } else {
                     JSONObject preview = getRecord().getEvents().peek();
@@ -67,7 +68,7 @@ public class GameRecordPlayer {
                         JSONObject event = getRecord().getEvents().poll();
                         getManager().getGameEventExecutor().submitGameEvent(event);
                     } else {
-                        if (playback_delay < 1.0f) {
+                        if (playback_delay < step) {// Note this play back delay is counting the frame rate!0.05f
                             playback_delay += delta;
                         } else {
                             playback_delay = 0f;

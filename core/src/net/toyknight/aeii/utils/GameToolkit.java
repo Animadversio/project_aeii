@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
+/** Majorly the IO between game states and the serialized files on disk
  * @author toyknight 9/17/2015.
  */
 public class GameToolkit {

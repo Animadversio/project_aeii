@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import java.io.File;
 import java.io.FileFilter;
 
-/**
+/** The default path for different platform should be set here.
  * @author toyknight 4/4/2015.
  */
 public class FileProvider {

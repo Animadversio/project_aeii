@@ -5,6 +5,11 @@ import com.esotericsoftware.kryo.io.Output;
 import net.toyknight.aeii.record.GameRecord;
 import net.toyknight.aeii.utils.FileProvider;
 import net.toyknight.aeii.utils.GameToolkit;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.IOException;
+import java.nio.file.StandardOpenOption;
 
 /**
  * @author toyknight 5/9/2016.
@@ -27,6 +32,10 @@ public class RecordSaveTask extends AsyncTask<Void> {
         output.writeString(content);
         output.flush();
         output.close();
+        content = record.toJson().toString(2);//.toString() will result in highly compressed JSON
+        System.out.println(content);
+        Path filePath = Paths.get(System.getProperty("user.home") + "/.aeii/","save/" + filename + ".json");
+        Files.writeString(filePath, content, StandardOpenOption.CREATE_NEW);
         return null;
     }
 

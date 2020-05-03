@@ -1,6 +1,6 @@
 package net.toyknight.aeii.manager;
 
-/**
+/** Operation is similar to GameEvent, but it's like high level API, compile events together like destroy caused by attack. (not Campaign events and results of action.). Besides, It use int type and int array parameters instead of JSON. So an agent could only choose from these operations.
  * @author toyknight 1/12/2016.
  */
 public class Operation {

@@ -132,14 +132,14 @@ public class GameLoadDialog extends BasicDialog {
         }
     }
 
-    public void tryStartRecord(FileHandle record_file) {
-        GameRecord record = GameToolkit.loadRecord(record_file);
+    public void tryStartRecord(FileHandle record_file) { // play recording files from loadGame screen! The speed is strange.
+        GameRecord record = GameToolkit.loadRecord(record_file); // load record from rec file
         if (record == null) {
             getOwner().showNotification(Language.getText("MSG_ERR_BSF"), null);
         } else {
             if (getContext().getVerificationString().equals(record.getVerificationString())) {
-                getContext().getGameManager().getGameRecorder().setEnabled(false);
-                for (int team = 0; team < 4; team++) {
+                getContext().getGameManager().getGameRecorder().setEnabled(false); // do not record the record replay!
+                for (int team = 0; team < 4; team++) { //TODO: Here presume the max team num is 4
                     Player player = record.getGame().getPlayer(team);
                     if (record.getGame().getMap().hasTeamAccess(team)) {
                         player.setType(Player.RECORD);

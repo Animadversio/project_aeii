@@ -291,12 +291,12 @@ public class Robot {
         Position current_position = getGame().getMap().getPosition(selected_unit);
         ObjectSet<Position> movable_positions;
         synchronized (GameContext.RENDER_LOCK) {
-            movable_positions = getManager().getPositionGenerator().createMovablePositions(selected_unit);
+            movable_positions = getManager().getPositionGenerator().createMovablePositions(selected_unit); // movable Position depends on ally so computable from Game
         }
 
         ObjectSet<Action> actions = new ObjectSet<Action>();
         Unit temp_selected_unit = UnitFactory.cloneUnit(selected_unit);
-        for (Position position : movable_positions) {
+        for (Position position : movable_positions) { // iterate through all movable positions
             if (!selected_unit.hasAbility(Ability.HEAVY_MACHINE) ||
                     (selected_unit.hasAbility(Ability.HEAVY_MACHINE) && position.equals(current_position))) {
                 ObjectSet<Position> target_positions = getManager().getPositionGenerator().createPositionsWithinRange(
@@ -323,7 +323,7 @@ public class Robot {
                         }
                     }
                     synchronized (GameContext.RENDER_LOCK) {
-                        if (getGame().getMap().isTomb(target_position)
+                        if (getGame().getMap().isTomb(target_position) &&  ! position.equals(target_position)
                                 && selected_unit.hasAbility(Ability.NECROMANCER)) {
                             actions.add(new Action(position, target_position, Operation.SUMMON));
                         }

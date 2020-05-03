@@ -85,7 +85,7 @@ public class GameManager implements AnimationListener {
         getOperationExecutor().reset();
         getAnimationDispatcher().reset();
         getPositionGenerator().reset();
-
+        getGameRecorder().setEnabled(true); // add this line to enable recording by default
         getRobot().initialize();
         getGameRecorder().prepare(getGame());
         this.unit_toolkit = new UnitToolkit(game);
@@ -158,7 +158,7 @@ public class GameManager implements AnimationListener {
     public Animator getCurrentAnimation() {
         return getAnimationDispatcher().getCurrentAnimation();
     }
-
+    // Define macro level operations through GameManager
     @Override
     public void onAnimationFinished() {
         if (!isProcessing()) {
@@ -170,7 +170,7 @@ public class GameManager implements AnimationListener {
         if (NetworkManager.isConnected()) {
             NetworkManager.submitGameEvent(event);
         }
-        getGameRecorder().submitGameEvent(event);
+        getGameRecorder().submitGameEvent(event); // if GameRecorder is enabled this will save the event to its queue
     }
 
     public void onGameEventFinished() {
@@ -240,7 +240,7 @@ public class GameManager implements AnimationListener {
                 campaign_messages.isEmpty() &&
                 getGame().getCurrentPlayer().getType() == Player.ROBOT;
     }
-
+    // These are the APIs that the GUI uses. When click or touch, run these level functions. Which changes inner states or submit events to operationExecutor
     public void setSelectedUnit(Unit unit) {
         this.selected_unit = unit;
         this.movable_positions.clear();
@@ -398,7 +398,7 @@ public class GameManager implements AnimationListener {
         getOperationExecutor().submitOperation(Operation.NEXT_TURN);
         getOperationExecutor().submitOperation(Operation.TURN_STARTED);
     }
-
+    // many utility functions!
     public void createMovablePositions(boolean preview) {
         movable_positions.clear();
         movable_positions.addAll(getPositionGenerator().createMovablePositions(getSelectedUnit(), preview));

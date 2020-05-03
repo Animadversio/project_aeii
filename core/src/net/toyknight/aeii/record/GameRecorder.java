@@ -43,7 +43,7 @@ public class GameRecorder {
         }
     }
 
-    public void submitGameEvent(JSONObject event) {
+    public void submitGameEvent(JSONObject event) { // like executor, but just save Events in a queue here.
         if (enabled) {
             event_queue.add(event);
         }
@@ -51,7 +51,7 @@ public class GameRecorder {
 
     public void save() {
         if (enabled) {
-            record.setEvents(event_queue);
+            record.setEvents(event_queue); // put the queue of events into record (literally), no processing
             RecordSaveTask task = new RecordSaveTask(record);
             getContext().submitAsyncTask(task);
         }

@@ -4,7 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
+/** Low level operations that change data in GameCore.
  * @author toyknight 4/3/2015.
  */
 public class GameEvent {
@@ -53,7 +53,7 @@ public class GameEvent {
             parameters.put(param);
         }
         event.put("parameters", parameters);
-        return event;
+        return event; // event is a JSON object with a bunch of JSONArray parameters. Can easily converted to string.
     }
 
 }

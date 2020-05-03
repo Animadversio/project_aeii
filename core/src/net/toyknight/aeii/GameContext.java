@@ -123,7 +123,7 @@ public class GameContext extends Game implements GameManagerListener {
                 font_renderer = new FontRenderer(this);
                 canvas_renderer = new CanvasRenderer(this);
                 border_renderer = new BorderRenderer(this);
-                if (!Boolean.parseBoolean(configuration.get("animation"))){
+                if (!Boolean.parseBoolean(configuration.get("animation"))){ // do animation or not
                     game_manager = new GameManager(this, new EmptyAnimationManager());//AnimationManager(this)
                 } else{
                     game_manager = new GameManager(this, new AnimationManager(this));//AnimationManager(this)
@@ -146,7 +146,7 @@ public class GameContext extends Game implements GameManagerListener {
                 wiki = new Wiki(main_menu_screen);
 
                 record_player = new GameRecordPlayer(this);
-                record_player.setListener(game_screen);
+                record_player.setListener(game_screen); // listener is what updates the graphics and show
 
                 campaign_context = new CampaignContext(this);
 
@@ -194,6 +194,7 @@ public class GameContext extends Game implements GameManagerListener {
                 configuration.put("se_volume", "0.5");
                 configuration.put("music_volume", "0.5");
                 configuration.put("animation", "1");
+                configuration.put("replay_step", "0.01");
                 OutputStreamWriter writer = new OutputStreamWriter(config_file.write(false), "UTF8");
                 PropertiesUtils.store(configuration, writer, "aeii user configuration file");
             }
@@ -298,9 +299,9 @@ public class GameContext extends Game implements GameManagerListener {
     public void gotoGameScreen(GameCore game) {
         AudioManager.playRandomBGM("bg_good.mp3");
         NetworkManager.resetEventQueue();
-        if (game.initialized()) {
+        if (game.initialized()) { // if it's a recording or saving.
             getGameManager().setGame(game);
-        } else {
+        } else { // start from scratch
             game.initialize();
             getGameManager().setGame(game);
             int income = game.gainIncome(game.getCurrentTeam());
@@ -342,7 +343,7 @@ public class GameContext extends Game implements GameManagerListener {
 
     public void gotoStatisticsScreen(GameCore game) {
         getRecordPlayer().reset();
-        getGameManager().getGameRecorder().save();
+        getGameManager().getGameRecorder().save(); // Record will be saved automatically at Stats screen
         statistics_screen.setGame(game);
         gotoScreen(statistics_screen);
     }

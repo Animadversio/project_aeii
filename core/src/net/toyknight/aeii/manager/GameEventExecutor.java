@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
+/** This class execute GameEvent. It changes data stored in GameCore, and fire Animation through AnimationDispatcher.
  * @author toyknight 11/1/2015.
  */
 public class GameEventExecutor {
@@ -60,12 +60,12 @@ public class GameEventExecutor {
         event_queue.add(event);
     }
 
-    public void submitGameEvent(int type, Object... params) {
+    public void submitGameEvent(int type, Object... params) { // another format. GameEvent is just an integer with some parameters.
         JSONObject event = GameEvent.create(type, params);
         submitGameEvent(event);
     }
 
-    public void dispatchGameEvents() throws CheatingException {
+    public void dispatchGameEvents() throws CheatingException { // if not game over then execute events in the event_queue
         if (getGame().isGameOver()) {
             getManager().onGameEventFinished();
         } else {
@@ -76,7 +76,7 @@ public class GameEventExecutor {
                         throw new CheatingException("Invalid game event!", getGame().getCurrentTeam());
                     } else {
                         executeGameEvent(event);
-                        getManager().onGameEventExecuted(event);
+                        getManager().onGameEventExecuted(event); // Execute event at Manager level. Can be recorded or sent through network.
                     }
                 } catch (JSONException ex) {
                     throw new CheatingException("Invalid game event!", getGame().getCurrentTeam());
@@ -752,7 +752,7 @@ public class GameEventExecutor {
             Unit target = UnitFactory.createUnit(target_index, target_team);
             getGame().getMap().removeUnit(carrier_x, carrier_y);
             getGame().updatePopulation(carrier.getTeam());
-            getAnimationDispatcher().submitUnitCarryAnimation(carrier, target, dest_x, dest_y);
+            getAnimationDispatcher().submitUnitCarryAnimation(carrier, target, dest_x, dest_y); // This animation is quite useful!
         }
     }
 
