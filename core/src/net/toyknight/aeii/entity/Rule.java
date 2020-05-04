@@ -134,7 +134,7 @@ public class Rule implements Serializable {
         return rule;
     }
 
-    private static Array<Integer> getDefaultUnits() {
+    private static Array<Integer> getDefaultUnits() { // default unit list is parsed from the List in UnitFactory
         int commander = UnitFactory.getCommanderIndex();
         int skeleton = UnitFactory.getSkeletonIndex();
         int crystal = UnitFactory.getCrystalIndex();
@@ -144,7 +144,7 @@ public class Rule implements Serializable {
                 unit_list.add(index);
             }
         }
-        //sort unit list
+        //sort unit list by Price
         for (int i = unit_list.size - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (UnitFactory.getSample(unit_list.get(j)).getPrice() >
@@ -153,7 +153,7 @@ public class Rule implements Serializable {
                 }
             }
         }
-        unit_list.add(commander);
+        unit_list.add(commander); // commander is at the end of the list
         return unit_list;
     }
 

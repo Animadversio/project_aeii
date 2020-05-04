@@ -402,7 +402,7 @@ public class Map implements Serializable {
         return units.get(dest_position) == null || upper_unit_layer[x][y] == null;
     }
 
-    public boolean canStandby(Unit unit) {
+    public boolean canStandby(Unit unit) {//TODO, seems there is some problem with hits
         Position position = getPosition(unit.getX(), unit.getY());
         if (UnitToolkit.isTheSameUnit(unit, upper_unit_layer[unit.getX()][unit.getY()])) {
             return units.get(position) == null;
