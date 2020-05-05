@@ -66,7 +66,7 @@ public class PlayerList extends StringList<PlayerSnapshot> {
             float s_width = getContext().getFontRenderer().getTextLayout(user_string).width;
             int ti = 0;
             for (int team = 0; team < 4; team++) {
-                if (hasTeamAccess(player.id, team) && getPlayerType(team) != Player.ROBOT) {
+                if (hasTeamAccess(player.id, team) && getPlayerType(team) != Player.ROBOT && getPlayerType(team) != Player.ROBOTAI) {
                     batch.draw(getResources().getBigCircleTexture(0),
                             x + ts / 4 + s_width + bc_offset + ti * (bc_offset + big_circle_width),
                             y + itemY - item_height + bc_offset,

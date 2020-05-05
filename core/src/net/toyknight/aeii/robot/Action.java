@@ -2,7 +2,7 @@ package net.toyknight.aeii.robot;
 
 import net.toyknight.aeii.entity.Position;
 
-/**
+/** Seems a wrapper class used in Robot.
  * @author toyknight 8/24/2016.
  */
 public class Action {

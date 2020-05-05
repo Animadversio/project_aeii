@@ -9,32 +9,29 @@ import net.toyknight.aeii.manager.Operation;
 import net.toyknight.aeii.utils.UnitFactory;
 import net.toyknight.aeii.utils.UnitToolkit;
 
-/**
- * @author toyknight 1/12/2016.
+/** Experimental class to implement and test new AIs against older ones and get stats.
+ * @author Binxu 05/04/2020.
  */
-public class Robot {
+public class RobotAI extends Robot{
 
-    protected final GameManager manager;
+//    protected final GameManager manager;
+//
+//    protected final ObjectSet<Position> assigned_positions;
+//
+//    protected final ObjectMap<Position, Boolean> tile_threat_status;
+//
+//    protected final ObjectMap<Integer, ObjectSet<Integer>> ability_map;
+//
+//    protected boolean prepared;
+//
+//    protected boolean calculating;
+//
+//    protected int team;
+//
+//    protected Action action;
 
-    protected final ObjectSet<Position> assigned_positions;
-
-    protected final ObjectMap<Position, Boolean> tile_threat_status;
-
-    protected final ObjectMap<Integer, ObjectSet<Integer>> ability_map;
-
-    protected boolean prepared;
-
-    protected boolean calculating;
-
-    protected int team;
-
-    protected Action action;
-
-    public Robot(GameManager manager) {
-        this.manager = manager;
-        this.assigned_positions = new ObjectSet<Position>();
-        this.tile_threat_status = new ObjectMap<Position, Boolean>();
-        this.ability_map = new ObjectMap<Integer, ObjectSet<Integer>>();
+    public RobotAI(GameManager manager) {
+        super(manager);
     }
 
     public void initialize() {
@@ -155,7 +152,7 @@ public class Robot {
             if (recruit_position == null) {
                 return false;
             } else {
-                if (!getGame().isCommanderAlive(team) && getGame().getCommander(team).getPrice() <= getGold()) {
+                if (!getGame().isCommanderAlive(team) && getGame().getCommander(team).getPrice() <= getGold()) { // if commander is dead and you can buy it then do so!
                     getManager().doBuyUnit(UnitFactory.getCommanderIndex(), recruit_position.x, recruit_position.y);
                     return true;
                 } else {
@@ -167,7 +164,7 @@ public class Robot {
                     int preferred_attack_type = enemy_average_physical_defence <= enemy_average_magic_defence ?
                             Unit.ATTACK_PHYSICAL : Unit.ATTACK_MAGIC;
                     int preferred_ability = getPreferredAbility();
-                    int unit_index = getPreferredRecruitment(
+                    int unit_index = getPreferredRecruitment( // buy units based on mean field theory.
                             recruit_position, preferred_attack_type, preferred_ability, enemy_average_mobility);
                     if (unit_index >= 0 &&
                             getManager().canBuy(unit_index, team, recruit_position.x, recruit_position.y)) {
@@ -192,10 +189,10 @@ public class Robot {
             }
         }
     }
-
+    // assume an action is already there you just act it! through calling the API in Manager()
     private void act() {
         synchronized (GameContext.RENDER_LOCK) {
-            if (!getAction().isActed()) { // assume an action is already there you just act it! through calling the API in Manager()
+            if (!getAction().isActed()) {
                 Position target = getAction().getTarget();
                 switch (getAction().getType()) {
                     case Operation.OCCUPY:
@@ -221,7 +218,7 @@ public class Robot {
             }
         }
     }
-
+    // Re-move certain units.
     private void remove() {
         synchronized (GameContext.RENDER_LOCK) {
             Unit selected_unit = getManager().getSelectedUnit();
@@ -396,7 +393,7 @@ public class Robot {
         }
     }
 
-    private void submitAction(Action action) { // Here records the robot action sequence in string format at cmd.
+    private void submitAction(Action action) { // Here just records the robot action / Operation sequence, not submitting to executor
         this.action = action;
         if (action.getType() == Operation.REPAIR) {
             assigned_positions.add(action.getPosition());

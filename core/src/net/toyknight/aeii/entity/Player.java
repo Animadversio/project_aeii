@@ -13,6 +13,7 @@ public class Player implements Serializable {
     public static final int ROBOT = 0x3;
     public static final int REMOTE = 0x2;
     public static final int RECORD = 0x4;
+    public static final int ROBOTAI = 0x5;
 
     private int type;
     private int gold = 0;
@@ -67,7 +68,7 @@ public class Player implements Serializable {
     }
 
     public boolean isLocalPlayer() {
-        return getType() == LOCAL || getType() == ROBOT;
+        return getType() == LOCAL || getType() == ROBOT || getType() == ROBOTAI;
     }
 
     public static Player createPlayer(int type, int alliance, int gold, int population) {

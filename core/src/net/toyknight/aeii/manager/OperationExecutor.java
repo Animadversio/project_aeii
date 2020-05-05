@@ -406,6 +406,7 @@ public class OperationExecutor {
                         getManager().beginMovePhase();
                     }
                     break;
+                case Player.ROBOTAI:
                 case Player.ROBOT:
                     getManager().beginMovePhase();
                     break;

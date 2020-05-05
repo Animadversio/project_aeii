@@ -9,7 +9,7 @@ import net.toyknight.aeii.network.entity.PlayerSnapshot;
 import net.toyknight.aeii.network.entity.RoomSetting;
 import org.json.JSONException;
 
-/**
+/** Here manage the players in a room
  * @author toyknight 6/7/2016.
  */
 public class RoomManager {
@@ -134,6 +134,7 @@ public class RoomManager {
                         allocation[team] = NetworkManager.getServiceID();
                     }
                     break;
+                case Player.ROBOTAI:
                 case Player.ROBOT:
                     allocation[team] = NetworkManager.getServiceID();
                     break;

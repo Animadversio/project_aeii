@@ -53,7 +53,7 @@ public class TileFactory {
             tile_list[index].setCapturable(is_capturable);
             if (is_capturable) {
                 short[] captured_tile_list = new short[5];
-                for (int t = 0; t < 5; t++) {
+                for (int t = 0; t < 5; t++) {//imply 4 teams + none
                     captured_tile_list[t] = din.nextShort();
                 }
                 tile_list[index].setCapturedTileList(captured_tile_list);

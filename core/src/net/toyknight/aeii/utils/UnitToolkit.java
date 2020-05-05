@@ -57,8 +57,8 @@ public class UnitToolkit {
         return heal;
     }
 
-    public static int getMovementPointCost(Unit unit, Tile tile) {
-        int mp_cost = tile.getStepCost();
+    public static int getMovementPointCost(Unit unit, Tile tile) { // This is a huge table!
+        int mp_cost = tile.getStepCost(); // default step cost.
         int tile_type = tile.getType();
         if (unit.hasAbility(Ability.AIR_FORCE)) {
             mp_cost = 1;

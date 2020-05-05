@@ -30,9 +30,9 @@ public class TileSelector extends AEIIContainer {
         Table tile_table = new Table();
         tile_table.padBottom(ts / 4);
         for (short i = 0; i < TileFactory.getTileCount(); i++) {
-            if ((0 <= i && i <= 2) || (15 <= i && i <= 45) || (80 <= i && i < TileFactory.getTileCount())) {
+            if ((0 <= i && i <= 2) || (15 <= i && i <= 45) || (80 <= i && i < TileFactory.getTileCount())) {// filter out some unnecessary tiles
                 TileButton t_btn = new TileButton(getContext(), getEditor(), i);
-                switch (index % 3) {
+                switch (index % 3) {// 3 tiles a row
                     case 0:
                     case 1:
                         tile_table.add(t_btn).padLeft(ts / 4).padTop(ts / 4);

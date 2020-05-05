@@ -806,7 +806,7 @@ public class GameScreen extends StageScreen implements MapCanvas, GameRecordPlay
         cursor_map_y = map_y;
         if (!Gdx.input.isTouched()) {
             int player_type = getGame().getCurrentPlayer().getType();
-            if (focus_viewport || player_type == Player.ROBOT || player_type == Player.RECORD) {
+            if (focus_viewport || player_type == Player.ROBOT || player_type == Player.ROBOTAI || player_type == Player.RECORD) {
                 locateViewport(map_x, map_y);
             }
         }

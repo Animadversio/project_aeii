@@ -110,7 +110,7 @@ public class SkirmishGameCreateScreen extends StageScreen implements StringList.
         spinner_type = new Spinner[4];
         Integer[] alliance_preset = new Integer[]{1, 2, 3, 4};
         String[] player_type_preset = new String[]{
-                Language.getText("LB_NONE"), Language.getText("LB_PLAYER"), Language.getText("LB_ROBOT")};
+                Language.getText("LB_NONE"), Language.getText("LB_PLAYER"), Language.getText("LB_ROBOT"), Language.getText("LB_ROBOT").concat("_exp")};// add new AIs
         for (int team = 0; team < 4; team++) {
             TextureRegionDrawable team_color =
                     ResourceManager.createDrawable(getResources().getTeamBackground(team), ts, ts);
@@ -200,6 +200,9 @@ public class SkirmishGameCreateScreen extends StageScreen implements StringList.
                 if (selected.equals(Language.getText("LB_ROBOT"))) {
                     getContext().getRoomManager().updatePlayerType(team, Player.ROBOT);
                 }
+                if (selected.equals(Language.getText("LB_ROBOT").concat("_exp"))) {
+                    getContext().getRoomManager().updatePlayerType(team, Player.ROBOTAI);
+                }
                 int alliance = spinner_alliance[team].getSelectedItem();
                 getContext().getRoomManager().updateAlliance(team, alliance);
                 getContext().getRoomManager().updateStartGold(spinner_gold.getSelectedItem());
@@ -209,7 +212,7 @@ public class SkirmishGameCreateScreen extends StageScreen implements StringList.
     }
 
     private void updateView() {
-        for (int team = 0; team < 4; team++) {
+        for (int team = 0; team < 4; team++) {  // this is where the player type gets updated, so we could add new types of robots here.
             if (getContext().getRoomManager().getGame().getMap().hasTeamAccess(team)) {
                 switch (getContext().getRoomManager().getGame().getPlayer(team).getType()) {
                     case Player.NONE:

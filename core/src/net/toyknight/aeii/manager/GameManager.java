@@ -11,6 +11,7 @@ import net.toyknight.aeii.entity.*;
 import net.toyknight.aeii.network.NetworkManager;
 import net.toyknight.aeii.record.GameRecorder;
 import net.toyknight.aeii.robot.Robot;
+import net.toyknight.aeii.robot.RobotAI;
 import net.toyknight.aeii.utils.UnitFactory;
 import net.toyknight.aeii.utils.UnitToolkit;
 import org.json.JSONObject;
@@ -41,6 +42,7 @@ public class GameManager implements AnimationListener {
     private final PositionGenerator position_generator;
 
     private final Robot robot;
+    private final Robot robotAI;
 
     private GameCore game;
     private UnitToolkit unit_toolkit;
@@ -69,7 +71,8 @@ public class GameManager implements AnimationListener {
         this.operation_executor = new OperationExecutor(this);
         this.event_executor = new GameEventExecutor(this);
 
-        this.robot = new Robot(this);
+        this.robot = new Robot(this); // Note a Robot attach to a context, not a single player. So the robot is simulating playing different sides.
+        this.robotAI = new RobotAI(this);
 
         this.move_path = new Array<Position>();
         this.movable_positions = new ObjectSet<Position>();
@@ -125,6 +128,10 @@ public class GameManager implements AnimationListener {
 
     public Robot getRobot() {
         return robot;
+    }
+
+    public Robot getRobotAI() {
+        return robotAI;
     }
 
     public void setListener(GameManagerListener listener) {
@@ -232,13 +239,22 @@ public class GameManager implements AnimationListener {
         if (canRobotCalculate()) {
             getRobot().calculate();
         }
+        if (canRobotAICalculate()) {
+            getRobotAI().calculate();
+        }
     }
 
     private boolean canRobotCalculate() {
         return !isAnimating() &&
                 !isProcessing() &&
                 campaign_messages.isEmpty() &&
-                getGame().getCurrentPlayer().getType() == Player.ROBOT;
+                (getGame().getCurrentPlayer().getType() == Player.ROBOT);
+    }
+    private boolean canRobotAICalculate() {
+        return !isAnimating() &&
+                !isProcessing() &&
+                campaign_messages.isEmpty() &&
+                (getGame().getCurrentPlayer().getType() == Player.ROBOTAI);
     }
     // These are the APIs that the GUI uses. When click or touch, run these level functions. Which changes inner states or submit events to operationExecutor
     public void setSelectedUnit(Unit unit) {
