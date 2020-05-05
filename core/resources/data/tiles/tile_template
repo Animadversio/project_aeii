@@ -1,0 +1,21 @@
+defence_bonus
+step_cost
+hp_recovery
+type
+top_tile_index
+team
+access_tile_count
+[n Int]
+is_capturable
+[5 Int if true]
+is_destroyable
+[1 Short]
+is_repairable
+[1 Short]
+is_animated
+[1 Short]
+mini_map_index
+[1 Int]
+is_castle
+is_village
+[is_temple]
