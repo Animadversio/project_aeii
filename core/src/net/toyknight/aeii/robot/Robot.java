@@ -18,7 +18,7 @@ public class Robot {
 
     protected final ObjectSet<Position> assigned_positions;
 
-    protected final ObjectMap<Position, Boolean> tile_threat_status;
+    protected final ObjectMap<Position, Boolean> tile_threat_status; // Note this could be extended from a boolean map to integer map (priority)
 
     protected final ObjectMap<Integer, ObjectSet<Integer>> ability_map;
 
@@ -26,7 +26,7 @@ public class Robot {
 
     protected boolean calculating;
 
-    protected int team;
+    protected int team; // Which team is the bot planning for.
 
     protected Action action;
 
@@ -106,7 +106,8 @@ public class Robot {
     private void prepare() {
         team = getGame().getCurrentTeam();
         assigned_positions.clear();
-        createTileThreatStatus();
+        createTileThreatStatus(); // the major thing is to compute if the castle or village is threatened. If yes then xxx
+        // more could be add here.
         prepared = true;
     }
 

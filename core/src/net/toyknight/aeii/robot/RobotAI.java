@@ -103,7 +103,9 @@ public class RobotAI extends Robot{
     private void prepare() {
         team = getGame().getCurrentTeam();
         assigned_positions.clear();
-        createTileThreatStatus();
+        createTileThreatStatus(); // the major thing is to compute if the castle or village is threatened. If yes then xxx
+        // more could be add here.
+        // e.g. could compute if the commander could occupy 
         prepared = true;
     }
 
@@ -147,7 +149,7 @@ public class RobotAI extends Robot{
 
     //recruit a new unit, returns false if no unit can be recruited
     private boolean recruit() {
-        synchronized (GameContext.RENDER_LOCK) {
+        synchronized (GameContext.RENDER_LOCK) { // they first find the location then find the unit.
             Position recruit_position = getPreferredRecruitPosition();
             if (recruit_position == null) {
                 return false;
@@ -164,11 +166,11 @@ public class RobotAI extends Robot{
                     int preferred_attack_type = enemy_average_physical_defence <= enemy_average_magic_defence ?
                             Unit.ATTACK_PHYSICAL : Unit.ATTACK_MAGIC;
                     int preferred_ability = getPreferredAbility();
-                    int unit_index = getPreferredRecruitment( // buy units based on mean field theory.
+                    int unit_index = getPreferredRecruitment( // buy units based on mean field theory??
                             recruit_position, preferred_attack_type, preferred_ability, enemy_average_mobility);
                     if (unit_index >= 0 &&
                             getManager().canBuy(unit_index, team, recruit_position.x, recruit_position.y)) {
-                        getManager().doBuyUnit(unit_index, recruit_position.x, recruit_position.y);
+                        getManager().doBuyUnit(unit_index, recruit_position.x, recruit_position.y); // then check if he can afford...
                         return true;
                     } else {
                         return false;
@@ -233,7 +235,7 @@ public class RobotAI extends Robot{
         getManager().doEndTurn();
         prepared = false;
     }
-
+    //@Override
     private void createTileThreatStatus() {
         tile_threat_status.clear();
         ObjectSet<Unit> enemy_units;
@@ -733,7 +735,7 @@ public class RobotAI extends Robot{
         return preferred_action;
     }
 
-    private int getPreferredRecruitment(
+    private int getPreferredRecruitment( // choose what to recruit based on ability and mobility! Great.
             Position recruit_position, int preferred_attack_type, int preferred_ability, int preferred_mobility) {
         if (getGame().getMap().getUnit(recruit_position) == null
                 && isThreatened(recruit_position) && getGold() < getSecondExpensiveUnitPrice()) {
@@ -776,15 +778,15 @@ public class RobotAI extends Robot{
         }
     }
 
-    private Position getPreferredRecruitPosition() { //TODO: this is not very good
+    private Position getPreferredRecruitPosition() { //TODO: this is not very good, it should be a function of unit.
         Position preferred_position = null;
         for (Position castle_position : getGame().getMap().getCastlePositions(team)) {
             if (isCastleAvailable(castle_position)) {
                 if (isThreatened(castle_position)) {
-                    return castle_position;
+                    return castle_position; // prioritize any castle that is threatened.
                 } else {
                     if (compareRecruitPosition(castle_position, preferred_position) > 0) {
-                        preferred_position = castle_position;
+                        preferred_position = castle_position; // now the closer to enemy location is preferred.Note different units should have different output
                     }
                 }
             }
@@ -817,7 +819,7 @@ public class RobotAI extends Robot{
         return getGame().getUnitPrice(getGame().getRule().getAvailableUnits().get(0), team);
     }
 
-    private int getStandbyScore(Unit unit, Position standby_position) {
+    private int getStandbyScore(Unit unit, Position standby_position) { // Compute score from enemy, ally and tiles.
         int score = 0;
         score += getAverageEnemyDistance(standby_position) * 20;
         score -= getAverageAllyDistance(standby_position) * 10;
@@ -939,14 +941,14 @@ public class RobotAI extends Robot{
         return unit != null && unit.getTeam() == team && !unit.isStandby();
     }
 
-    private int compareRecruitPosition(Position position_a, Position position_b) {
+    private int compareRecruitPosition(Position position_a, Position position_b) { // which recruit position is better.
         if (position_a == null) {
             return -1;
         }
         if (position_b == null) {
             return 1;
         }
-        return getAverageEnemyDistance(position_a) > getAverageEnemyDistance(position_b) ? 1 : -1;
+        return getAverageEnemyDistance(position_a) < getAverageEnemyDistance(position_b) ? 1 : -1; // the shorter distance the better?
     }
 
     private final Runnable calculate_task = new Runnable() {
