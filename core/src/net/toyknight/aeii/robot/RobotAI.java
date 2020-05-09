@@ -105,7 +105,7 @@ public class RobotAI extends Robot{
         assigned_positions.clear();
         createTileThreatStatus(); // the major thing is to compute if the castle or village is threatened. If yes then xxx
         // more could be add here.
-        // e.g. could compute if the commander could occupy 
+        // e.g. could compute if the commander could occupy
         prepared = true;
     }
 
